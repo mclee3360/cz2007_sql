@@ -48,8 +48,11 @@ CREATE TABLE Physician(
 );
 
 CREATE TABLE Patient(
-    id            CHAR(10) PRIMARY KEY,
+    id            CHAR(10) NOT NULL,
+    contact_date  DATE     NOT NULL,
     physician_id  CHAR(10) NOT NULL,
+
+    PRIMARY KEY(id, contact_date),
 
     CONSTRAINT patient_is_person FOREIGN KEY (id) REFERENCES Persons(id)
         ON UPDATE CASCADE
@@ -64,36 +67,28 @@ CREATE TABLE Patient(
     )
 );
 
-/* Created a separate entity for this because having each patient identified
- * by their ID and their contact date was unnecessarily complicated for later
- * foreign references.*/
-CREATE TABLE Patient_Dates(
-    patient_id   CHAR(10) NOT NULL,
-    contact_date DATE     NOT NULL,
-
-    PRIMARY KEY(patient_id, contact_date),
-    CONSTRAINT patient_exists FOREIGN KEY(patient_id) REFERENCES Patient(id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-);
-
 CREATE TABLE Outpatient(
-    id CHAR(10) PRIMARY KEY,
+    id            CHAR(10) NOT NULL,
+    contact_date  DATE     NOT NULL,
 
-    CONSTRAINT outpatient_is_patient FOREIGN KEY(id) REFERENCES Patient(id)
+    PRIMARY KEY(id, contact_date),
+
+    CONSTRAINT outpatient_is_patient FOREIGN KEY(id, contact_date)
+    REFERENCES Patient(id, contact_date)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
 CREATE TABLE Visit(
-    patient_id CHAR(10)     NOT NULL,
-    visit_date DATE         NOT NULL,
-    comment    VARCHAR(100) CONSTRAINT [default_comment] DEFAULT 'NIL',
-    num_times  INT          NOT NULL,
+    patient_id   CHAR(10)     NOT NULL,
+    contact_date DATE         NOT NULL,
+    visit_date   DATE         NOT NULL,
+    comment      VARCHAR(100) CONSTRAINT [default_comment] DEFAULT 'NIL',
 
     PRIMARY KEY(patient_id, visit_date),
 
-    CONSTRAINT outpatient_exists FOREIGN KEY(patient_id) REFERENCES Outpatient(id)
+    CONSTRAINT outpatient_exists FOREIGN KEY(patient_id, contact_date)
+    REFERENCES Outpatient(id, contact_date)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
 );
@@ -235,10 +230,13 @@ CREATE TABLE Bed(
 );
 
 CREATE TABLE Resident(
-    id            CHAR(10) PRIMARY KEY,
+    id            CHAR(10) NOT NULL,
+    contact_date  DATE     NOT NULL,
     date_admitted DATE     NOT NULL,
     room_no       INT      NOT NULL,
     bed_no        INT      NOT NULL,
+
+    PRIMARY KEY(id, contact_date),
 
     CONSTRAINT bed_exists FOREIGN KEY(room_no, bed_no) REFERENCES Bed(room_no, bed_no)
         ON UPDATE CASCADE
@@ -247,12 +245,14 @@ CREATE TABLE Resident(
 );
 
 CREATE TABLE Resident_Admit_Dates(
-    resident_id CHAR(10) NOT NULL,
-    admit_date  DATE     NOT NULL,
+    resident_id  CHAR(10) NOT NULL,
+    contact_date DATE     NOT NULL,
+    admit_date   DATE     NOT NULL,
 
     PRIMARY KEY(resident_id, admit_date),
 
-    CONSTRAINT resident_exists FOREIGN KEY(resident_id) REFERENCES Resident(id)
+    CONSTRAINT resident_exists FOREIGN KEY(resident_id, contact_date)
+    REFERENCES Resident(id, contact_date)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
