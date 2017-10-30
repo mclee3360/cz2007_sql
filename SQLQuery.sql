@@ -85,7 +85,7 @@ CREATE TABLE Visit(
     visit_date   DATE         NOT NULL,
     comment      VARCHAR(100) CONSTRAINT [default_comment] DEFAULT 'NIL',
 
-    PRIMARY KEY(patient_id, visit_date),
+    PRIMARY KEY(patient_id, contact_date, visit_date),
 
     CONSTRAINT outpatient_exists FOREIGN KEY(patient_id, contact_date)
     REFERENCES Outpatient(id, contact_date)
