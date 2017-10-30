@@ -256,3 +256,43 @@ CREATE TABLE Resident_Admit_Dates(
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+
+/**************************
+ * DATA SELECTION QUERIES *
+ **************************/
+/* #1 */
+SELECT id
+FROM   Volunteer
+WHERE  skill <> NULL;
+
+/* #3 */
+SELECT   patient_id
+FROM     Visit
+GROUP BY patient_id
+HAVING   COUNT(visit_date) = 1;
+
+/* #4 */
+SELECT skill, COUNT(id) AS counter
+FROM (
+    SELECT id, skill
+    FROM   Volunteer
+
+    UNION
+
+    SELECT id, skill
+    FROM   Technician
+) AS list
+GROUP BY skill
+
+/* #5 */
+SELECT resident_id
+FROM   Resident_Admit_Dates
+WHERE  DATEDIFF(dy, contact_date, admit_date) <= 7;
+
+/* #6 */
+SELECT   p.physician_id, COUNT(visit_date) AS num_visits
+FROM     Visit AS v, Patient AS p
+WHERE    p.id = v.patient_id AND p.contact_date = v.contact_date
+GROUP BY physician_id, visit_date
+HAVING   COUNT(visit_date) >= 3;
