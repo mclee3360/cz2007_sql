@@ -251,7 +251,8 @@ CREATE TABLE Resident(
 
     PRIMARY KEY(id, contact_date),
 
-    CONSTRAINT resident_is_patient FOREIGN KEY(id) REFERENCES Patient(id)
+    CONSTRAINT resident_is_patient FOREIGN KEY(id, contact_date)
+    REFERENCES Patient(id, contact_date)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     CONSTRAINT bed_exists FOREIGN KEY(room_no, bed_no) REFERENCES Bed(room_no, bed_no)
