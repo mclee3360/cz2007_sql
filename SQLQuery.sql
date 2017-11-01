@@ -283,6 +283,20 @@ SELECT id
 FROM   Volunteer
 WHERE  skill <> NULL;
 
+/* #2 */
+SELECT DISTINCT visiting_phys AS unassigned_physician
+FROM   (
+    /* Wrote out this subquery just for visualziation if needed; can just move
+       the SELECT DISTINCT part from superquery into the SELECT statement
+       in here */
+    SELECT v.patient_id AS pat_id, v.contact_date AS contact,
+    	   v.visit_date AS visit, p.physician_id AS primary_phys,
+    	   v.phys_id AS visiting_phys
+    FROM   Visit AS v, Patient AS p
+    WHERE  p.id = v.patient_id AND p.contact_date = v.contact_date
+    	   AND p.physician_id <> v.phys_id
+) AS unassigned_phys;
+
 /* #3 */
 SELECT   patient_id
 FROM     Visit
