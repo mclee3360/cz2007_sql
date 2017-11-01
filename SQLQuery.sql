@@ -17,7 +17,7 @@ CREATE TABLE Addresses(
 );
 
 CREATE TABLE Persons(
-    id        CHAR(10)    PRIMARY KEY,
+    id        INT         IDENTITY(0, 1) PRIMARY KEY,
     name      VARCHAR(20) NOT NULL,
     birthdate DATE        NOT NULL,
     phone     VARCHAR(10),
@@ -26,16 +26,13 @@ CREATE TABLE Persons(
     CONSTRAINT address_exists FOREIGN KEY (address) REFERENCES Addresses(address)
         ON UPDATE CASCADE
         ON DELETE SET NULL,
-    CONSTRAINT person_id_only_digits CHECK(
-        id NOT LIKE '%[^0-9]%'
-    ),
     CONSTRAINT person_phone_only_digits CHECK(
         phone NOT LIKE '%[^0-9]%'
     )
 );
 
 CREATE TABLE Physician(
-    id        CHAR(10)    PRIMARY KEY,
+    id        INT         PRIMARY KEY,
     specialty VARCHAR(20) NOT NULL,
     phone     VARCHAR(10) NOT NULL,
 
@@ -48,9 +45,9 @@ CREATE TABLE Physician(
 );
 
 CREATE TABLE Patient(
-    id            CHAR(10) NOT NULL,
-    contact_date  DATE     NOT NULL,
-    physician_id  CHAR(10) NOT NULL,
+    id            INT  NOT NULL,
+    contact_date  DATE NOT NULL,
+    physician_id  INT  NOT NULL,
 
     PRIMARY KEY(id, contact_date),
 
@@ -68,8 +65,8 @@ CREATE TABLE Patient(
 );
 
 CREATE TABLE Outpatient(
-    id            CHAR(10) NOT NULL,
-    contact_date  DATE     NOT NULL,
+    id            INT  NOT NULL,
+    contact_date  DATE NOT NULL,
 
     PRIMARY KEY(id, contact_date),
 
@@ -80,9 +77,9 @@ CREATE TABLE Outpatient(
 );
 
 CREATE TABLE Visit(
-    patient_id   CHAR(10)     NOT NULL,
+    patient_id   INT          NOT NULL,
     contact_date DATE         NOT NULL,
-    phys_id      CHAR(10)     NOT NULL, /* Physician being visited. Could
+    phys_id      INT          NOT NULL, /* Physician being visited. Could
                                            potentially not be the patient's
                                            main physician. */
     visit_date   DATE         NOT NULL,
@@ -107,7 +104,7 @@ CREATE TABLE Visit(
 );
 
 CREATE TABLE Volunteer(
-    id    CHAR(10)    PRIMARY KEY,
+    id    INT         PRIMARY KEY,
     skill VARCHAR(20),
 
     CONSTRAINT volunteer_is_person FOREIGN KEY(id) REFERENCES Persons(id)
@@ -116,8 +113,8 @@ CREATE TABLE Volunteer(
 );
 
 CREATE TABLE Employees(
-    id         CHAR(10) PRIMARY KEY,
-    date_hired DATE     NOT NULL,
+    id         INT  PRIMARY KEY,
+    date_hired DATE NOT NULL,
 
     CONSTRAINT employee_is_person FOREIGN KEY(id) REFERENCES Persons(id)
         ON UPDATE CASCADE
@@ -125,7 +122,7 @@ CREATE TABLE Employees(
 );
 
 CREATE TABLE Staff(
-    id        CHAR(10)    PRIMARY KEY,
+    id        INT         PRIMARY KEY,
     job_class VARCHAR(20) NOT NULL,
 
     CONSTRAINT staff_is_employee FOREIGN KEY(ID) REFERENCES Employees(id)
@@ -134,7 +131,7 @@ CREATE TABLE Staff(
 );
 
 CREATE TABLE Technician(
-    id    CHAR(10)    PRIMARY KEY,
+    id    INT         PRIMARY KEY,
     skill VARCHAR(20),
 
     CONSTRAINT tech_is_employee FOREIGN KEY(ID) REFERENCES Employees(id)
@@ -148,7 +145,7 @@ CREATE TABLE Lab(
 );
 
 CREATE TABLE Lab_Assignments(
-    tech_id  CHAR(10)    NOT NULL,
+    tech_id  INT         NOT NULL,
     lab_name VARCHAR(30) NOT NULL,
 
     PRIMARY KEY(tech_id, lab_name),
@@ -165,14 +162,14 @@ CREATE TABLE Care_Centre(
     name         VARCHAR(30) PRIMARY KEY,
     location     VARCHAR(30) NOT NULL,
     type         VARCHAR(20) NOT NULL,
-    rn_in_charge CHAR(10)    NOT NULL UNIQUE, /* Unique b/c one RN can only be
+    rn_in_charge INT         NOT NULL UNIQUE, /* Unique b/c one RN can only be
                                                  in charge of one centre at a
                                                  time, per the diagram */
     /* Foreign key is added later because of the way diagram is set up */
 );
 
 CREATE TABLE Nurse(
-    id              CHAR(10)    PRIMARY KEY,
+    id              INT         PRIMARY KEY,
     assigned_centre VARCHAR(30) NOT NULL,
 
     CONSTRAINT nurse_is_person FOREIGN KEY (id) REFERENCES Employees(id)
@@ -188,7 +185,7 @@ CREATE TABLE Certificates(
 );
 
 CREATE TABLE Nurse_Certifications(
-    nurse_id  CHAR(10)    NOT NULL,
+    nurse_id  INT         NOT NULL,
     cert_type VARCHAR(30) NOT NULL,
 
     PRIMARY KEY(nurse_id, cert_type),
@@ -208,7 +205,7 @@ CREATE TABLE RN_Certificates(
 );
 
 CREATE TABLE RN(
-    id      CHAR(10)    PRIMARY KEY,
+    id      INT         PRIMARY KEY,
     rn_cert VARCHAR(30) NOT NULL,
 
     CONSTRAINT rn_is_nurse FOREIGN KEY (id) REFERENCES Nurse(id)
@@ -243,11 +240,11 @@ CREATE TABLE Bed(
 );
 
 CREATE TABLE Resident(
-    id            CHAR(10) NOT NULL,
-    contact_date  DATE     NOT NULL,
-    date_admitted DATE     NOT NULL,
-    room_no       INT      NOT NULL,
-    bed_no        INT      NOT NULL,
+    id            INT  NOT NULL,
+    contact_date  DATE NOT NULL,
+    date_admitted DATE NOT NULL,
+    room_no       INT  NOT NULL,
+    bed_no        INT  NOT NULL,
 
     PRIMARY KEY(id, contact_date),
 
@@ -262,9 +259,9 @@ CREATE TABLE Resident(
 );
 
 CREATE TABLE Resident_Admit_Dates(
-    resident_id  CHAR(10) NOT NULL,
-    contact_date DATE     NOT NULL,
-    admit_date   DATE     NOT NULL,
+    resident_id  INT  NOT NULL,
+    contact_date DATE NOT NULL,
+    admit_date   DATE NOT NULL,
 
     PRIMARY KEY(resident_id, admit_date),
 
