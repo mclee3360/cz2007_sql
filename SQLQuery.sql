@@ -82,15 +82,28 @@ CREATE TABLE Outpatient(
 CREATE TABLE Visit(
     patient_id   CHAR(10)     NOT NULL,
     contact_date DATE         NOT NULL,
+    phys_id      CHAR(10)     NOT NULL, /* Physician being visited. Could
+                                           potentially not be the patient's
+                                           main physician. */
     visit_date   DATE         NOT NULL,
     comment      VARCHAR(100) CONSTRAINT [default_comment] DEFAULT 'NIL',
+    /* Removed num_times since it doesn't make sense for a patient to be
+       scheduled a visit multiple times to the same physician in one day */
 
-    PRIMARY KEY(patient_id, contact_date, visit_date),
+    /* Should be able to uniquely identify every visit with the patient,
+       physician being visited, and the date (no physician should be visited
+       by the same patient more than once a day */
+    PRIMARY KEY(patient_id, phys_id, visit_date),
 
     CONSTRAINT outpatient_exists FOREIGN KEY(patient_id, contact_date)
     REFERENCES Outpatient(id, contact_date)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
+    CONSTRAINT physician_exists FOREIGN KEY(phys_id) REFERENCES Physician(id)
+        ON UPDATE NO ACTION /* Prevents direct update of physician ID due to
+                               potential cycles */
+        ON DELETE NO ACTION /* Must reassign patient's visit to another physician
+                               before deletion */
 );
 
 CREATE TABLE Volunteer(
