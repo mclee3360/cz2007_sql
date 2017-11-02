@@ -319,8 +319,7 @@ FROM   Resident_Admit_Dates
 WHERE  DATEDIFF(dy, contact_date, admit_date) <= 7;
 
 /* #6 */
-SELECT   p.physician_id, COUNT(visit_date) AS num_visits
-FROM     Visit AS v, Patient AS p
-WHERE    p.id = v.patient_id AND p.contact_date = v.contact_date
-GROUP BY physician_id, visit_date
+SELECT   phys_id, COUNT(visit_date) AS num_visits
+FROM     Visit AS v
+GROUP BY  phys_id, visit_date
 HAVING   COUNT(visit_date) >= 3;
