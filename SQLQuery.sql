@@ -170,7 +170,7 @@ CREATE TABLE Care_Centre(
 
 CREATE TABLE Nurse(
     id              INT         PRIMARY KEY,
-    assigned_centre VARCHAR(30) NOT NULL,
+    assigned_centre VARCHAR(30),
 
     CONSTRAINT nurse_is_person FOREIGN KEY (id) REFERENCES Employees(id)
         ON UPDATE CASCADE
@@ -276,9 +276,9 @@ CREATE TABLE Resident_Admit_Dates(
  * DATA SELECTION QUERIES *
  **************************/
 /* #1 */
-SELECT id
+SELECT *
 FROM   Volunteer
-WHERE  skill <> NULL;
+WHERE skill IS NULL;
 
 /* #2 */
 SELECT DISTINCT visiting_phys AS unassigned_physician
