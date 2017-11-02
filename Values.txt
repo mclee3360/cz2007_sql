@@ -1,0 +1,133 @@
+INSERT INTO Persons (name, birthdate, phone) VALUES
+	('John', '2000-10-10', '12345678');
+
+INSERT INTO Persons(name, birthdate) VALUES
+	('Ben', '2001-01-03');
+
+INSERT INTO Persons(name, birthdate) VALUES
+	('Tom', '1980-02-03'),
+	('Nick', '1999-05-30'),
+	('Harry', '1850-06-08'), 
+	('Mary', '1979-04-10'),
+	('Tim', '1989-06-12');
+
+INSERT INTO Persons(name, birthdate) VALUES
+	('Helen', '2000-02-03'),
+	('Melen', '1988-05-30'),
+	('May', '1938-06-08'), 
+	('April', '1969-04-10'),
+	('Judy', '1979-06-12');
+
+INSERT INTO Persons(name, birthdate) VALUES
+	('Kim', '2000-02-03'),
+	('Rachel', '2000-05-30'),
+	('Joey', '2000-06-08'), 
+	('Jess', '2000-04-10'),
+	('Jessy', '2000-02-03'),
+	('Jamie', '2000-05-30'),
+	('Justin', '2000-06-08'), 
+	('Alan', '2000-04-10'),
+	('Roy', '2000-06-12');
+
+
+INSERT INTO Volunteer(id) VALUES
+	(0);
+
+INSERT INTO Physician VALUES
+	(1, 'Backbone', '63123654'),
+	(2, 'Hands', '98765432');
+
+INSERT INTO Patient VALUES
+	(3, '2017-12-13', 1),
+	(4, '2016-11-04', 2),
+	(5, '2014-05-08', 2);
+
+INSERT INTO Outpatient VALUES
+	(3, '2017-12-13'),
+	(4, '2016-11-04');
+
+
+INSERT INTO Employees VALUES
+	(6, '2000-12-08');
+
+INSERT INTO Certificates VALUES
+	('Registered');
+
+INSERT INTO RN_Certificates VALUES
+	('Registered');
+
+INSERT INTO Nurse (id) VALUES
+	(6);
+
+INSERT INTO RN VALUES
+	(6, 'Registered');
+
+INSERT INTO Employees VALUES
+	(20, '2011-12-08'),
+	(21, '2011-12-09');
+
+INSERT INTO Care_Centre VALUES
+	('Rainbow Carecentre', 'Rainbow Road', 'Maternity', 6);
+
+INSERT INTO Bed VALUES
+	(1, 1, 'Rainbow Carecentre');
+
+INSERT INTO Resident VALUES
+	(5, '2014-05-08', '2013-05-09', 1, 1);
+
+INSERT INTO Technician VALUES
+	(20, 'Plumber');
+
+UPDATE Volunteer
+SET skill = 'Plumber'
+WHERE id = 0;
+
+INSERT INTO Technician VALUES
+	(21, 'Electrician');
+
+INSERT INTO Volunteer VALUES
+	(22, 'Dancing'),
+	(23, 'Playing');
+
+INSERT INTO Volunteer(id) VALUES
+	(24);
+
+INSERT INTO Visit VALUES
+	(3, '2017-12-13', 2, '2017-12-14', 'Healthy');
+
+INSERT INTO Patient VALUES
+	(25, '2017-11-13', 1);
+
+INSERT INTO Outpatient VALUES
+	(25, '2017-11-13');
+
+INSERT INTO Visit VALUES
+	(4, '2016-11-4', 2, '2017-12-14', 'Blood Pressure High'),
+	(25, '2017-11-13', 2, '2017-12-14', 'Unhealthy range');
+
+INSERT INTO Patient VALUES
+	(26, '2017-12-13', 1);
+
+INSERT INTO Outpatient VALUES
+	(26, '2017-12-13');
+
+INSERT INTO Visit VALUES
+	(26, '2017-12-13', 1, '2017-12-14', 'Still checking');
+
+INSERT INTO Patient VALUES
+	(27, '2017-12-13', 1),
+	(28, '2017-12-13', 1);
+
+INSERT INTO Outpatient VALUES
+	(27, '2017-12-13'),
+	(28, '2017-12-13');
+
+INSERT INTO Visit VALUES
+	(27, '2017-12-13', 1, '2017-12-14', 'Still checking'),
+	(28, '2017-12-13', 1, '2017-12-14', 'Still checking');
+
+INSERT INTO Resident_Admit_Dates VALUES
+	(5,	'2014-05-08', '2014-05-09');
+
+
+
