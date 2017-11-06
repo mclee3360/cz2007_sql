@@ -278,7 +278,7 @@ CREATE TABLE Resident_Admit_Dates(
 /* #1 */
 SELECT *
 FROM   Volunteer
-WHERE skill IS NULL;
+WHERE  skill IS NULL;
 
 /* #2 */
 SELECT DISTINCT visiting_phys AS unassigned_physician
@@ -321,5 +321,5 @@ WHERE  DATEDIFF(dy, contact_date, admit_date) <= 7;
 /* #6 */
 SELECT   phys_id, COUNT(visit_date) AS num_visits
 FROM     Visit AS v
-GROUP BY  phys_id, visit_date
+GROUP BY phys_id, visit_date
 HAVING   COUNT(visit_date) >= 3;
